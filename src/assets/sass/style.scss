@@ -1,0 +1,25 @@
+@import '_config';
+
+body {
+  padding: 200px 0;
+}
+
+.slider {
+  width: 600px;
+  height: calc(600px * 0.6);
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  z-index: 10000;
+  &-area {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    // left: -600px;
+  }
+  &-slide {
+    width: 100%;
+    height: calc(600px * 0.6);
+  }
+}

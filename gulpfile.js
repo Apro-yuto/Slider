@@ -26,6 +26,11 @@ const copyImages = () => {
   .pipe(dest('./dist/assets/img/'))
 }
 
+const copyHtml = () => {
+  return src('./src/**/*.html')
+  .pipe(dest('./dist/'))
+}
+
 const cssPublic = (done) => {
   del(['./dist/assets/css/**/*']);
   done();
@@ -76,14 +81,14 @@ const syncReload = (done) => {
 }
 
 const watchFiles = () => {
+  watch( './src/**/*.html', series(copyHtml, syncReload))
   watch( './src/assets/sass/**/*.scss', series(cssSass, syncReload))
   watch( './src/assets/css/**/*', series(cssPublic ,copycss, syncReload))
   watch( './src/assets/img/', series(imgClean, copyImages, syncReload))
   watch( './src/**/*.pug', series(compilePug, syncReload))
   watch( './src/assets/js/**/*.js', series(jsBabel, syncReload))
   watch( './src/assets/js/**/*.min.js', series(copyMinjs, syncReload))
-  watch( './dist/**/*.html', series(syncReload))
   watch( './dist/assets/js/**/*.js', series(syncReload))
 }
 
-exports.default = series(series(jsBabel, imgClean, copyImages, compilePug, cssPublic ,cssSass ,copycss ,copyMinjs), parallel(watchFiles, syncFunc));
+exports.default = series(series(jsBabel, imgClean, copyImages, copyHtml, compilePug, cssPublic ,cssSass ,copycss ,copyMinjs), parallel(watchFiles, syncFunc));

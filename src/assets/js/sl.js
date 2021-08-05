@@ -16,15 +16,16 @@ class Slider {
 
     this.element.addEventListener('mousedown', this.slideStart.bind(this));
     this.element.addEventListener('mouseup', this.onMouseUp.bind(this));
+    this.element.onmouseout = this.onMouseUp.bind(this);
 
   };
 
   slideStart(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     this.startX = e.offsetX;
 
-    this.element.addEventListener('mousemove', this.runDragFunc)
+    this.element.addEventListener('mousemove', this.runDragFunc);
   };
   
   calcDrag(e) {
@@ -46,10 +47,12 @@ class Slider {
     
     if( this.page <= 1 && onDrag >= 0 ) {
       this.changePosition(0)
+      return;
     }
     if( this.page >= this.maxPage && onDrag <= 0 ) {
       var result = (this.page - 1) * -this.elementWidth
       this.changePosition(result)
+      return;
     }
 
     if(onDrag < pageTrigger) {
